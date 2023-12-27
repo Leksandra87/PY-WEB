@@ -35,4 +35,9 @@ class IndexView(View):
     def get(self, request):
         return render(request, 'first/index.html')
 
+# class JsonView(View):
+#     def get(self, request):
+#         return render(request, 'first/course.json')
+
+
 # Create your views here.

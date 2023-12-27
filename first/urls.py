@@ -7,5 +7,6 @@ urlpatterns = [
     path('random/', RandomView.as_view()),
     path('hello/', HelloView.as_view()),
     path('index/', IndexView.as_view()),
+    # path('json/', JsonView.as_view()),
     path('func/', current), # функциональный метод
 ]
