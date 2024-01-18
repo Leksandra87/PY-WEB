@@ -16,6 +16,15 @@ class CartView(View):
 class ProductView(View):
     def get(self, request, id):
         data = Product.objects.get(id=id)
+        products_category = Product.objects.filter(category__name=data.category.name).exclude(id=id)  # category=data.category
+
+        products = products_category.annotate(
+            discount_value=Subquery(Discount.objects.filter(product_id=OuterRef('id')).values('value')),
+            price_before=F('price'),
+            price_after=ExpressionWrapper(
+                F('price') * (100.0 - F('discount_value')) / 100.0,
+                output_field=DecimalField(max_digits=10, decimal_places=2))
+        ).values('id', 'name', 'image', 'price_before', 'price_after', 'discount_value')[:4]
         return render(request,
                       "store/product-single.html",
                       context={'name': data.name,
@@ -23,6 +32,7 @@ class ProductView(View):
                                'price': data.price,
                                'rating': 5.0,
                                'url': data.image.url,
+                               'data': products
                                })
 
 
