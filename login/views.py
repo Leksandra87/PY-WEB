@@ -44,5 +44,6 @@ class CreateAccountView(View):
             user.save()
             login(request, user)
             return redirect('store:shop')
-        return redirect('login:create')
+        return render(request, "login/create_account.html",
+                      context={'errors': form.errors})
 # Create your views here.
