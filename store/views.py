@@ -64,7 +64,7 @@ class ShopView(View):
             # ),
             price_before=F('price'),
             price_after=price_with_discount
-        ).values('id', 'name', 'image', 'price_before', 'price_after',
+        ).order_by('id').values('id', 'name', 'image', 'price_before', 'price_after',
                  'discount_value')
         return render(request, 'store/shop.html', {"data": products})
 
